@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Question For You ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+
+/* Background video */
+video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+/* Glass overlay card */
+.overlay {
+    background: rgba(0, 0, 0, 0.55);
+    padding: 30px;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 400px;
+    backdrop-filter: blur(12px);
+}
+
+/* GIF styling */
+.center-gif {
+    width: 220px;
+    max-width: 100%;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 12px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 30px;
+    background: #ff4d6d;
+    color: white;
+    cursor: pointer;
+    margin: 5px;
+    transition: 0.2s;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+</style>
+</head>
+
+<body>
+
+<!-- Background Video -->
+<video autoplay muted loop playsinline>
+    <source src="loveheart.mp4" type="video/mp4">
+</video>
+
+<div class="overlay">
+
+    <!-- Your GIF -->
+    <img src="love.gif" class="center-gif">
+
+    <h1>Will you be my Valentine? 💝</h1>
+
+    <button onclick="goNext()">Yes ❤️</button>
+    <button onclick="moveButton(this)">No 😢</button>
+
+</div>
+
+<script>
+function goNext() {
+    window.location.href = "coupons.html";
+}
+
+function moveButton(button) {
+    button.style.position = "absolute";
+    button.style.top = Math.random() * (window.innerHeight - 50) + "px";
+    button.style.left = Math.random() * (window.innerWidth - 100) + "px";
+}
+</script>
+
+</body>
+</html>
