@@ -21,7 +21,7 @@
             z-index: -1;
         }
         .overlay {
-            background: rgba(0, 0, 0, 0.50);
+            background: rgba(0, 0, 0, 0.55);
             min-height: 100vh;
             padding: 40px 20px;
             backdrop-filter: blur(10px);
@@ -38,8 +38,8 @@
             align-self: flex-start;
             margin-bottom: 20px;
             padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid white;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255,255,255,0.3);
             border-radius: 30px;
             color: white;
             text-decoration: none;
@@ -47,7 +47,7 @@
             transition: 0.3s;
         }
         .back-btn:hover {
-            background: rgba(255, 77, 109, 0.6);
+            background: rgba(255, 77, 109, 0.5);
         }
         .coupon-list {
             width: 100%;
@@ -67,7 +67,7 @@
             text-align: center;
             transition: transform 0.6s;
             transform-style: preserve-3d;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
             border-radius: 20px;
         }
         .flip-card.tapped .flip-card-inner {
@@ -87,12 +87,14 @@
             box-sizing: border-box;
         }
         .flip-card-front {
-            background: rgba(255, 255, 255, 0.25);
+            background: linear-gradient(135deg, rgba(30,30,30,0.85), rgba(80,0,40,0.7));
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: white;
-            font-size: 22px;
+            border: 1px solid rgba(255, 77, 109, 0.3);
+            color: #ff69b4;
+            font-size: 26px;
             font-weight: bold;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+            letter-spacing: 1px;
         }
         .flip-card-back {
             background: rgba(255, 77, 109, 0.35);
@@ -103,7 +105,8 @@
         }
         .flip-card-back h2 {
             margin: 0 0 12px;
-            font-size: 20px;
+            font-size: 22px;
+            color: #ff69b4;
         }
         .flip-card-back p {
             margin: 0 0 15px;
@@ -125,16 +128,16 @@
         .used .flip-card-front,
         .used .flip-card-back {
             opacity: 0.6;
-            background: rgba(100, 100, 100, 0.4);
+            background: rgba(60, 60, 60, 0.5);
         }
         .used .redeem-btn {
-            background: #777;
+            background: #555;
             cursor: default;
         }
         @media (max-width: 430px) {
             h1 { font-size: 24px; }
             .flip-card { height: 200px; }
-            .flip-card-front { font-size: 20px; }
+            .flip-card-front { font-size: 24px; }
         }
     </style>
 </head>
@@ -146,8 +149,8 @@
     <div class="overlay">
         <a href="index.html" class="back-btn">← Back</a>
 
-        <h1>Your Love Coupons 💖</h1>
-        <p>Tap to reveal your surprises, Whippersnapper! Redeemed ones stay redeemed forever 🎉❤️</p>
+        <h1>Your Secret Coupons 🖤</h1>
+        <p>Tap to reveal your surprise... redeem for magic 💫</p>
 
         <div class="coupon-list">
 
@@ -155,7 +158,7 @@
             <div class="flip-card" data-id="coupon-1" onclick="this.classList.toggle('tapped')">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
-                        COUPON #1
+                        COUPON #1 🖤
                     </div>
                     <div class="flip-card-back">
                         <h2>Breakfast in Bed</h2>
@@ -169,11 +172,11 @@
             <div class="flip-card" data-id="coupon-2" onclick="this.classList.toggle('tapped')">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
-                        COUPON #2
+                        COUPON #2 🖤
                     </div>
                     <div class="flip-card-back">
                         <h2>Weekly Shop</h2>
-                        <p>One weekly shop, done by me whilst you enjoy time relaxing at home. </p>
+                        <p>One weekly shop, done by me whilst you enjoy time relaxing at home.</p>
                         <button class="redeem-btn" onclick="event.stopPropagation(); redeemCoupon(this)">Redeem</button>
                     </div>
                 </div>
@@ -183,7 +186,7 @@
             <div class="flip-card" data-id="coupon-3" onclick="this.classList.toggle('tapped')">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
-                        COUPON #3
+                        COUPON #3 🖤
                     </div>
                     <div class="flip-card-back">
                         <h2>Movie Night Pick</h2>
@@ -197,7 +200,7 @@
             <div class="flip-card" data-id="coupon-4" onclick="this.classList.toggle('tapped')">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
-                        COUPON #4
+                        COUPON #4 🖤
                     </div>
                     <div class="flip-card-back">
                         <h2>Romantic Massage</h2>
@@ -211,7 +214,7 @@
             <div class="flip-card" data-id="coupon-5" onclick="this.classList.toggle('tapped')">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
-                        COUPON #5
+                        COUPON #5 🖤
                     </div>
                     <div class="flip-card-back">
                         <h2>Date Night Surprise</h2>
@@ -221,11 +224,11 @@
                 </div>
             </div>
 
-            <!-- COUPON 6 (Unlimited example) -->
+            <!-- COUPON 6 – Unlimited example -->
             <div class="flip-card" data-id="coupon-6" onclick="this.classList.toggle('tapped')">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
-                        COUPON #5
+                        COUPON #6 🖤
                     </div>
                     <div class="flip-card-back">
                         <h2>Wiggly Toe Time!</h2>
@@ -239,7 +242,7 @@
     </div>
 
     <script>
-        // Haptic helper (iOS switch trick + Android fallback)
+        // Haptic helper
         function createHapticSwitch() {
             const input = document.createElement('input');
             input.type = 'checkbox';
@@ -259,7 +262,6 @@
                 else navigator.vibrate(60);
                 return;
             }
-            // iOS fallback
             const input = createHapticSwitch();
             input.checked = true;
             setTimeout(() => {
@@ -268,9 +270,16 @@
             }, 0);
         }
 
-        // localStorage for persistent redeemed state
+        // localStorage persistence
         const STORAGE_KEY = 'love-coupons-redeemed';
-        let redeemed = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        let redeemed = [];
+
+        try {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) redeemed = JSON.parse(stored);
+        } catch (e) {
+            console.error('Error reading localStorage:', e);
+        }
 
         function loadRedeemed() {
             document.querySelectorAll('.flip-card').forEach(card => {
@@ -279,7 +288,7 @@
                     card.classList.add('used');
                     const btn = card.querySelector('.redeem-btn');
                     if (btn) {
-                        btn.textContent = 'Redeemed! 💖';
+                        btn.textContent = 'Redeemed! 🖤';
                         btn.disabled = true;
                     }
                 }
@@ -289,7 +298,6 @@
         function redeemCoupon(button, unlimited = false) {
             triggerHaptic('success');
 
-            // Vibrant heart confetti
             const heartConfetti = () => {
                 confetti({
                     particleCount: 150,
@@ -342,12 +350,16 @@
             if (!unlimited) {
                 const card = button.closest('.flip-card');
                 const id = card.dataset.id;
-                if (!redeemed.includes(id)) {
+                if (id && !redeemed.includes(id)) {
                     redeemed.push(id);
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(redeemed));
+                    try {
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(redeemed));
+                    } catch (e) {
+                        console.error('Error saving:', e);
+                    }
                 }
                 card.classList.add('used');
-                button.textContent = 'Redeemed! 💖';
+                button.textContent = 'Redeemed! 🖤';
                 button.disabled = true;
             } else {
                 button.textContent = 'Redeemed! 💕';
@@ -355,7 +367,6 @@
             }
         }
 
-        // Close other cards when opening a new one
         document.querySelectorAll('.flip-card').forEach(card => {
             card.addEventListener('click', () => {
                 document.querySelectorAll('.flip-card').forEach(c => {
@@ -364,7 +375,6 @@
             });
         });
 
-        // Load redeemed state on page load
         window.addEventListener('load', loadRedeemed);
     </script>
 </body>
