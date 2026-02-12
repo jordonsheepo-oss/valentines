@@ -142,18 +142,17 @@
     </style>
 </head>
 <body>
-    <video autoplay muted loop playsinline>
-        <source src="loveheart.mp4" type="video/mp4">
+    <!-- Updated video tag: playsinline first, preload, poster fallback -->
+    <video playsinline autoplay muted loop preload="auto" poster="love-poster.jpg">
+        <source src="Loveheart1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
     </video>
 
     <div class="overlay">
         <a href="index.html" class="back-btn">← Back</a>
-
         <h1>Your Secret Coupons 🖤</h1>
         <p>Tap to reveal your surprise... redeem for magic 💫</p>
-
         <div class="coupon-list">
-
             <!-- COUPON 1 -->
             <div class="flip-card" data-id="coupon-1" onclick="this.classList.toggle('tapped')">
                 <div class="flip-card-inner">
@@ -167,7 +166,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- COUPON 2 -->
             <div class="flip-card" data-id="coupon-2" onclick="this.classList.toggle('tapped')">
                 <div class="flip-card-inner">
@@ -181,7 +179,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- COUPON 3 -->
             <div class="flip-card" data-id="coupon-3" onclick="this.classList.toggle('tapped')">
                 <div class="flip-card-inner">
@@ -195,7 +192,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- COUPON 4 -->
             <div class="flip-card" data-id="coupon-4" onclick="this.classList.toggle('tapped')">
                 <div class="flip-card-inner">
@@ -209,7 +205,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- COUPON 5 -->
             <div class="flip-card" data-id="coupon-5" onclick="this.classList.toggle('tapped')">
                 <div class="flip-card-inner">
@@ -223,7 +218,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- COUPON 6 – Unlimited example -->
             <div class="flip-card" data-id="coupon-6" onclick="this.classList.toggle('tapped')">
                 <div class="flip-card-inner">
@@ -237,12 +231,11 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
     <script>
-        // Haptic helper
+        // Haptic helper (unchanged)
         function createHapticSwitch() {
             const input = document.createElement('input');
             input.type = 'checkbox';
@@ -270,10 +263,9 @@
             }, 0);
         }
 
-        // localStorage persistence
+        // localStorage persistence (unchanged)
         const STORAGE_KEY = 'love-coupons-redeemed';
         let redeemed = [];
-
         try {
             const stored = localStorage.getItem(STORAGE_KEY);
             if (stored) redeemed = JSON.parse(stored);
@@ -297,7 +289,6 @@
 
         function redeemCoupon(button, unlimited = false) {
             triggerHaptic('success');
-
             const heartConfetti = () => {
                 confetti({
                     particleCount: 150,
@@ -313,7 +304,6 @@
                 });
             };
             heartConfetti();
-
             setTimeout(() => {
                 confetti({
                     particleCount: 80,
@@ -334,7 +324,6 @@
                     scalar: 1.1
                 });
             }, 150);
-
             setTimeout(() => {
                 confetti({
                     particleCount: 100,
@@ -346,7 +335,6 @@
                     gravity: 0.4
                 });
             }, 300);
-
             if (!unlimited) {
                 const card = button.closest('.flip-card');
                 const id = card.dataset.id;
@@ -376,6 +364,23 @@
         });
 
         window.addEventListener('load', loadRedeemed);
+
+        // NEW: Attempt to force video play + handle common iOS blocks
+        window.addEventListener('load', () => {
+            const video = document.querySelector('video');
+            if (video) {
+                video.muted = true; // Ensure muted
+                video.playsInline = true;
+                const playPromise = video.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log('Autoplay blocked:', error);
+                        // Optional: Show a fallback message or image
+                        // e.g., document.querySelector('.overlay').insertAdjacentHTML('afterbegin', '<p style="color:white; text-align:center;">Video paused (Low Power/Reduce Motion? Tap to play)</p>');
+                    });
+                }
+            }
+        });
     </script>
 </body>
 </html>
