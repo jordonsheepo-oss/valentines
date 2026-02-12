@@ -147,11 +147,11 @@
         <a href="index.html" class="back-btn">← Back</a>
 
         <h1>Your Love Coupons 💖</h1>
-        <p>Tap to reveal your surprise, then redeem for heart confetti + haptic feedback! 🎉❤️</p>
+        <p>Tap to reveal your surprise, then redeem for heart confetti + haptic! Redeemed ones stay redeemed even after refresh 🎉❤️</p>
 
         <div class="coupon-list">
 
-            <div class="flip-card" onclick="this.classList.toggle('tapped')">
+            <div class="flip-card" data-id="coupon-breakfast" onclick="this.classList.toggle('tapped')">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
                         Breakfast in Bed 🥞
@@ -164,7 +164,7 @@
                 </div>
             </div>
 
-            <div class="flip-card" onclick="this.classList.toggle('tapped')">
+            <div class="flip-card" data-id="coupon-hug" onclick="this.classList.toggle('tapped')">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
                         Long Cozy Hug 🤗
@@ -177,7 +177,7 @@
                 </div>
             </div>
 
-            <div class="flip-card" onclick="this.classList.toggle('tapped')">
+            <div class="flip-card" data-id="coupon-movie" onclick="this.classList.toggle('tapped')">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
                         Movie Night Pick 🎬
@@ -190,7 +190,7 @@
                 </div>
             </div>
 
-            <div class="flip-card" onclick="this.classList.toggle('tapped')">
+            <div class="flip-card" data-id="coupon-massage" onclick="this.classList.toggle('tapped')">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
                         Romantic Massage 😌
@@ -203,7 +203,7 @@
                 </div>
             </div>
 
-            <div class="flip-card" onclick="this.classList.toggle('tapped')">
+            <div class="flip-card" data-id="coupon-kisses" onclick="this.classList.toggle('tapped')">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
                         Unlimited Kisses 😘
@@ -216,60 +216,64 @@
                 </div>
             </div>
 
-            <!-- Add more flip-card blocks here as needed -->
+            <!-- Add more? Copy a block and change data-id to something unique like "coupon-picnic" -->
 
         </div>
     </div>
 
     <script>
-        // Hidden elements for iOS haptic workaround (created dynamically)
+        // Haptic helper (from before - iOS switch trick + Android fallback)
         function createHapticSwitch() {
             const input = document.createElement('input');
             input.type = 'checkbox';
-            input.setAttribute('switch', ''); // Non-standard attribute for iOS haptics (Safari 17.4+)
+            input.setAttribute('switch', '');
             input.style.position = 'absolute';
             input.style.opacity = '0';
             input.style.pointerEvents = 'none';
             input.style.width = '1px';
             input.style.height = '1px';
             document.body.appendChild(input);
-
-            const label = document.createElement('label');
-            label.htmlFor = ''; // No need for id since we toggle directly
-            label.style.display = 'none';
-            document.body.appendChild(label);
-
-            return { input, label };
+            return input;
         }
 
-        function triggerHaptic(pattern = 'light') {
-            // Try standard vibrate first (works on Android/Chrome)
+        function triggerHaptic(pattern = 'success') {
             if (navigator.vibrate) {
-                if (pattern === 'success') {
-                    navigator.vibrate([50, 30, 50]); // Short-short-short pattern
-                } else {
-                    navigator.vibrate(60); // Single short buzz
-                }
+                if (pattern === 'success') navigator.vibrate([50, 30, 50]);
+                else navigator.vibrate(60);
                 return;
             }
-
-            // iOS fallback: toggle hidden switch for native haptic
-            const { input } = createHapticSwitch();
-            input.checked = true;  // Trigger haptic on toggle
+            // iOS fallback
+            const input = createHapticSwitch();
+            input.checked = true;
             setTimeout(() => {
                 input.checked = false;
-                // Clean up after short delay
-                setTimeout(() => {
-                    input.remove();
-                }, 100);
+                setTimeout(() => input.remove(), 100);
             }, 0);
         }
 
-        function redeemCoupon(button, unlimited = false) {
-            // Trigger haptic feedback (subtle on iOS, vibrate on others)
-            triggerHaptic('success'); // Or 'light' for single tap feel
+        // localStorage key for redeemed coupons
+        const STORAGE_KEY = 'love-coupons-redeemed';
+        let redeemed = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
-            // Vibrant heart confetti explosion!
+        // On page load: mark already redeemed coupons
+        function loadRedeemed() {
+            document.querySelectorAll('.flip-card').forEach(card => {
+                const id = card.dataset.id;
+                if (redeemed.includes(id)) {
+                    card.classList.add('used');
+                    const btn = card.querySelector('.redeem-btn');
+                    if (btn) {
+                        btn.textContent = 'Redeemed! 💖';
+                        btn.disabled = true;
+                    }
+                }
+            });
+        }
+
+        function redeemCoupon(button, unlimited = false) {
+            triggerHaptic('success');
+
+            // Confetti (same vibrant hearts)
             const heartConfetti = () => {
                 confetti({
                     particleCount: 150,
@@ -284,7 +288,6 @@
                     ticks: 400
                 });
             };
-
             heartConfetti();
 
             setTimeout(() => {
@@ -322,6 +325,11 @@
 
             if (!unlimited) {
                 const card = button.closest('.flip-card');
+                const id = card.dataset.id;
+                if (!redeemed.includes(id)) {
+                    redeemed.push(id);
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(redeemed));
+                }
                 card.classList.add('used');
                 button.textContent = 'Redeemed! 💖';
                 button.disabled = true;
@@ -331,7 +339,7 @@
             }
         }
 
-        // Close other cards when opening a new one
+        // Close other cards on tap
         document.querySelectorAll('.flip-card').forEach(card => {
             card.addEventListener('click', () => {
                 document.querySelectorAll('.flip-card').forEach(c => {
@@ -339,6 +347,9 @@
                 });
             });
         });
+
+        // Load redeemed state when page opens
+        window.addEventListener('load', loadRedeemed);
     </script>
 </body>
 </html>
