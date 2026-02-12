@@ -147,11 +147,12 @@
         <a href="index.html" class="back-btn">← Back</a>
 
         <h1>Your Love Coupons 💖</h1>
-        <p>Tap to reveal your surprise, then redeem for heart confetti + haptic! Redeemed ones stay redeemed even after refresh 🎉❤️</p>
+        <p>Tap to reveal your surprises, Whippersnapper! Redeemed ones stay redeemed forever 🎉❤️</p>
 
         <div class="coupon-list">
 
-            <div class="flip-card" data-id="coupon-breakfast" onclick="this.classList.toggle('tapped')">
+            <!-- COUPON 1 -->
+            <div class="flip-card" data-id="coupon-1" onclick="this.classList.toggle('tapped')">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
                         Breakfast in Bed 🥞
@@ -164,65 +165,81 @@
                 </div>
             </div>
 
-            <div class="flip-card" data-id="coupon-hug" onclick="this.classList.toggle('tapped')">
+            <!-- COUPON 2 -->
+            <div class="flip-card" data-id="coupon-2" onclick="this.classList.toggle('tapped')">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
-                        Long Cozy Hug 🤗
+                        Weekly Shop Done By Me! 🤗
                     </div>
                     <div class="flip-card-back">
-                        <h2>Long Cozy Hug</h2>
-                        <p>One extra-long, super tight hug whenever you need it.</p>
+                        <h2>Weekly Shop</h2>
+                        <p>One weekly shop, done by me whilst you enjoy time relaxing at home. </p>
                         <button class="redeem-btn" onclick="event.stopPropagation(); redeemCoupon(this)">Redeem</button>
                     </div>
                 </div>
             </div>
 
-            <div class="flip-card" data-id="coupon-movie" onclick="this.classList.toggle('tapped')">
+            <!-- COUPON 3 -->
+            <div class="flip-card" data-id="coupon-3" onclick="this.classList.toggle('tapped')">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
                         Movie Night Pick 🎬
                     </div>
                     <div class="flip-card-back">
                         <h2>Movie Night Pick</h2>
-                        <p>You choose the movie, snacks, and cuddles—no complaints!</p>
+                        <p>You choose the movie, snacks, and cuddles — no complaints!</p>
                         <button class="redeem-btn" onclick="event.stopPropagation(); redeemCoupon(this)">Redeem</button>
                     </div>
                 </div>
             </div>
 
-            <div class="flip-card" data-id="coupon-massage" onclick="this.classList.toggle('tapped')">
+            <!-- COUPON 4 -->
+            <div class="flip-card" data-id="coupon-4" onclick="this.classList.toggle('tapped')">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
-                        Romantic Massage 😌
+                        Romantic Massage 💆
                     </div>
                     <div class="flip-card-back">
                         <h2>Romantic Massage</h2>
-                        <p>Full back/shoulder massage to melt your stress away.</p>
+                        <p>A full relaxing massage to melt away all your stress.</p>
                         <button class="redeem-btn" onclick="event.stopPropagation(); redeemCoupon(this)">Redeem</button>
                     </div>
                 </div>
             </div>
 
-            <div class="flip-card" data-id="coupon-kisses" onclick="this.classList.toggle('tapped')">
+            <!-- COUPON 5 -->
+            <div class="flip-card" data-id="coupon-5" onclick="this.classList.toggle('tapped')">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
-                        Unlimited Kisses 😘
+                        Date Night Surprise 🌙
+                    </div>
+                    <div class="flip-card-back">
+                        <h2>Date Night Surprise</h2>
+                        <p>I plan a special evening just for us — your only job is to show up.</p>
+                        <button class="redeem-btn" onclick="event.stopPropagation(); redeemCoupon(this)">Redeem</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COUPON 6 (Unlimited example) -->
+            <div class="flip-card" data-id="coupon-6" onclick="this.classList.toggle('tapped')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        Wiggly Toe Time! 😘
                     </div>
                     <div class="flip-card-back">
                         <h2>Unlimited Kisses</h2>
-                        <p>Kisses whenever, wherever—no limit!</p>
+                        <p>A full on toe wiggling experience!</p>
                         <button class="redeem-btn" onclick="event.stopPropagation(); redeemCoupon(this, true)">Redeem</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Add more? Copy a block and change data-id to something unique like "coupon-picnic" -->
-
         </div>
     </div>
 
     <script>
-        // Haptic helper (from before - iOS switch trick + Android fallback)
+        // Haptic helper (iOS switch trick + Android fallback)
         function createHapticSwitch() {
             const input = document.createElement('input');
             input.type = 'checkbox';
@@ -251,11 +268,10 @@
             }, 0);
         }
 
-        // localStorage key for redeemed coupons
+        // localStorage for persistent redeemed state
         const STORAGE_KEY = 'love-coupons-redeemed';
         let redeemed = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
-        // On page load: mark already redeemed coupons
         function loadRedeemed() {
             document.querySelectorAll('.flip-card').forEach(card => {
                 const id = card.dataset.id;
@@ -273,7 +289,7 @@
         function redeemCoupon(button, unlimited = false) {
             triggerHaptic('success');
 
-            // Confetti (same vibrant hearts)
+            // Vibrant heart confetti
             const heartConfetti = () => {
                 confetti({
                     particleCount: 150,
@@ -339,7 +355,7 @@
             }
         }
 
-        // Close other cards on tap
+        // Close other cards when opening a new one
         document.querySelectorAll('.flip-card').forEach(card => {
             card.addEventListener('click', () => {
                 document.querySelectorAll('.flip-card').forEach(c => {
@@ -348,7 +364,7 @@
             });
         });
 
-        // Load redeemed state when page opens
+        // Load redeemed state on page load
         window.addEventListener('load', loadRedeemed);
     </script>
 </body>
